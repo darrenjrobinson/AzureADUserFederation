@@ -1,4 +1,3 @@
-
 function Get-AzureADUserGuestTenants {
     <#
     .SYNOPSIS
@@ -58,24 +57,20 @@ function Get-AzureADUserGuestTenants {
             if ($msalCacheObj) {
                 if ($msalCacheObj.Username -eq $userUPN) {
                     # Get new token using MSAL Cache for the user being looked up                
-                    #Write-Host -ForegroundColor blue "Refreshing tokens for '$($userUPN)' using the MSAL Cached Refresh Token."
                     $Global:myAccessToken = Get-MsalToken -ClientId $clientID -silent -TenantId $tenantId -Scopes $scopes -LoginHint $userUPN -RedirectUri "http://localhost" -Authority "https://login.microsoftonline.com/$($tenantID)/" -ForceRefresh
                 }
             }
             else {
                 # No MSAL Cache for this ClientID and User. Need to login for tokens
-                #write-host -ForegroundColor Blue "'$($userUPN)' not found in MSAL Cache for ClientID '$($clientID)'."
                 $Global:myAccessToken = Get-MsalToken -Interactive -ClientId $clientID -TenantId $tenantID -LoginHint $userUPN -Scopes $scopes -RedirectUri "http://localhost" -Authority "https://login.microsoftonline.com/$($tenantID)/"
             }
         }
         else {
             # Force Auth as requested by -forceAuth
-            #write-host -ForegroundColor Blue "'$($userUPN)' Force re-authentication triggered."
             $Global:myAccessToken = Get-MsalToken -Interactive -ClientId $clientID -TenantId $tenantID -LoginHint $userUPN -Scopes $scopes -RedirectUri "http://localhost" -Authority "https://login.microsoftonline.com/$($tenantID)/"
         }
     }
     catch {
-        # Write-Host -ForegroundColor Yellow "No MSAL trickery failed"
         $Global:myAccessToken = Get-MsalToken -Interactive -ClientId $clientID -TenantId $tenantID -LoginHint $userUPN -Scopes $scopes -RedirectUri "http://localhost" -Authority "https://login.microsoftonline.com/$($tenantID)/"
     }
 
@@ -109,8 +104,8 @@ Export-ModuleMember -Function 'Get-AzureADUserGuestTenants'
 # SIG # Begin signature block
 # MIINSwYJKoZIhvcNAQcCoIINPDCCDTgCAQExCzAJBgUrDgMCGgUAMGkGCisGAQQB
 # gjcCAQSgWzBZMDQGCisGAQQBgjcCAR4wJgIDAQAABBAfzDtgWUsITrck0sYpfvNR
-# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQU5nLXeB4QBvgTCCOYdzpqDNEx
-# 6xegggqNMIIFMDCCBBigAwIBAgIQBAkYG1/Vu2Z1U0O1b5VQCDANBgkqhkiG9w0B
+# AgEAAgEAAgEAAgEAAgEAMCEwCQYFKw4DAhoFAAQUwMeSgWP+oEXXhpxyTqirfIWc
+# PXagggqNMIIFMDCCBBigAwIBAgIQBAkYG1/Vu2Z1U0O1b5VQCDANBgkqhkiG9w0B
 # AQsFADBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYD
 # VQQLExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBBc3N1cmVk
 # IElEIFJvb3QgQ0EwHhcNMTMxMDIyMTIwMDAwWhcNMjgxMDIyMTIwMDAwWjByMQsw
@@ -171,11 +166,11 @@ Export-ModuleMember -Function 'Get-AzureADUserGuestTenants'
 # b20xMTAvBgNVBAMTKERpZ2lDZXJ0IFNIQTIgQXNzdXJlZCBJRCBDb2RlIFNpZ25p
 # bmcgQ0ECEAzs0XV3s4G5ExftUKPGYK8wCQYFKw4DAhoFAKB4MBgGCisGAQQBgjcC
 # AQwxCjAIoAKAAKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYB
-# BAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFH3lGJrwpUA3
-# GnrsRDDR7bvZvgt/MA0GCSqGSIb3DQEBAQUABIIBAHXd55yt5OX/WHawcZLditgA
-# 2b9qxxUct4zy6ZL5vIRMQ71PaBzW6v1sztz29txvxdsOE0/Mz7ENdIp2Rd2DKvuB
-# fYVeYNwQQS1i0l5n/CbYU/AmJ/mQ4KlW14VKgpUDVO0pQgqZN6QYVYFBUim1vuUD
-# dY3p76SNy51aldvTtYRt4McfUO7OkkzwPQZL8qiCw0fFU2Ba0zQQT57nNOrKXCTF
-# kEnNzB6otjUCCpeALHeuDfAZ1Ankc5HJMla5DHEGtiZ+79gDSlP8t63VlfM/2nyl
-# a32KPoF1pjoDv/Gd83MQk2zngNjNDFaiztv3NoVS9SGDKOVEX8im90nyLvs0Doc=
+# BAGCNwIBCzEOMAwGCisGAQQBgjcCARUwIwYJKoZIhvcNAQkEMRYEFDccGXMGFIEr
+# rKdbKJcPNNPqiO5OMA0GCSqGSIb3DQEBAQUABIIBABlihI23DWXMkfux62DUbhOW
+# 99sQFoM1R2B/+pNhha5EZ9Qnybj4a5iqDxzOyd2I9Tbv4aUhRkWBld5XmdTNT4WX
+# DlqmmORkfxLkgfZz0m1Y0s9xJu64HD63LRcgtPiYsTNze0oMRa9M8z4mGRXvIbpD
+# H15DBL2XjWoWgNMN9GDL/LVpjfQTIaWDzDbz3gRAJJo8NMaB94JzgcbMNX4jr6OF
+# oo0r5ru0L7gEAB3qZPFIlzxTd6R7a7W3H4etclq+Aasc9YbI/bwb97Sjx6uE9Sp0
+# wnvk4QYBrP8DLdG+N2dkinW0a7KbcUiubUbjwVXHf2yf9zn+EFhfOZp+tqJKVPs=
 # SIG # End signature block
