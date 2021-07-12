@@ -43,10 +43,15 @@ Import-Module AzureADUserFederation
 ```
 
 Force Authentication and bypass attempts to use MSAL Cache for AuthN
+
 ```powershell
 Import-Module AzureADUserFederation
 Get-AzureADUserGuestTenants -userUPN 'user@aaddomain.com' -forceAuth $true 
 ```
+
+## Example Output
+
+![](./ExampleOutputAzureADUserFederation.png)
 
 ## Keep up to date
 
